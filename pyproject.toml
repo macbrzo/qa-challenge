@@ -2,7 +2,7 @@
 name = "qa-task"
 version = "0.1.0"
 description = "Coding Challange"
-authors = ["Maciej Brzostowski <maciejbrzo@gmail.com>"]
+authors = ["Maciej Brzostowski <maciejbrzost@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
