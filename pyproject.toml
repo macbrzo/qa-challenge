@@ -1,12 +1,21 @@
 [tool.poetry]
 name = "qa-task"
 version = "0.1.0"
-description = "Coding Challange"
+description = "Coding Challenge"
 authors = ["Maciej Brzostowski <maciejbrzost@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "3.12.6"
+pre-commit = "^4.1.0"
+black = "^25.1.0"
+isort = "^6.0.0"
+flake8 = "^7.1.1"
+pytest = "^8.3.4"
+selenium = "^4.28.1"
+webdriver-manager = "^4.0.2"
+xdist = "^0.0.2"
 
 
 [build-system]
