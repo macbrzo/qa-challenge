@@ -16,6 +16,7 @@ pytest = "^8.3.4"
 selenium = "^4.28.1"
 webdriver-manager = "^4.0.2"
 xdist = "^0.0.2"
+pytest-xdist = "^3.6.1"
 
 
 [build-system]
