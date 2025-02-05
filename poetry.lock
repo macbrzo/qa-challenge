@@ -1109,5 +1109,5 @@ pandas = "*"
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.12.6"
-content-hash = "5ad3c794bbdbe5dc1dcff86c24c45ef6a5edec3e414a8395ae0e19d20b062ea1"
+python-versions = "^3.12.6"
+content-hash = "6b794a5f457403c1213a0673f9ff1c85ce0e4a8cef3b72ddd39d81a45993bf92"
