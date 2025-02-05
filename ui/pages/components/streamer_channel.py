@@ -50,7 +50,7 @@ class StreamerChannel:
             return False
         return True
 
-    def handle_content_gate_popup(self):
+    def handle_content_gate_popup(self) -> None:
         self.streamer_container.wait_for_element_to_be_visible()
         if self.content_gate.is_present():
             self.start_watching_btn.click()

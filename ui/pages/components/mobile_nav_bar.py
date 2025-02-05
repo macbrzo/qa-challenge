@@ -1,4 +1,9 @@
+from typing import TYPE_CHECKING
+
 from libs.core.ui import BaseElement
+
+if TYPE_CHECKING:
+    from ui.pages.browse_page import BrowsePage
 
 
 class MobileNavBar:
@@ -10,7 +15,7 @@ class MobileNavBar:
         )
         self.logger = logger
 
-    def navigate_to_search_page(self):
+    def navigate_to_search_page(self) -> "BrowsePage":
         self.search_btn.click()
         from ui.pages.browse_page import BrowsePage
 

@@ -3,7 +3,12 @@ from datetime import datetime
 from pathlib import Path
 
 
-def take_screenshot(*, driver, test_name: str, screenshot_dir: str = "screenshots"):
+def take_screenshot(
+    *,
+    driver,
+    test_name: str,
+    screenshot_dir: str = "screenshots",
+) -> None:
     """Helper function to capture and save a screenshot."""
     screenshot_dir = Path(screenshot_dir)
     screenshot_dir.mkdir(parents=True, exist_ok=True)

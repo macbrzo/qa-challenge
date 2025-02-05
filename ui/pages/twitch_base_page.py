@@ -16,10 +16,10 @@ class TwitchTVPage(BasePage):
             driver=driver, locator="css=button[data-a-target='consent-banner-accept']"
         )
 
-    def accept_consent_banner_modal(self):
+    def accept_consent_banner_modal(self) -> None:
         if self.consent_banner_modal.is_present():
             self.accept_btn.click()
 
-    def open_url(self, *, url: str):
+    def open_url(self, *, url: str) -> None:
         super().open_url(url=url)
         self.accept_consent_banner_modal()
