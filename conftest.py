@@ -15,11 +15,6 @@ devices = [
     "iPad Pro",
     "Samsung Galaxy S20 Ultra",
 ]
-#
-# devices = [
-#     "iPhone X",
-# ]
-#
 
 
 @pytest.fixture(scope="session")
