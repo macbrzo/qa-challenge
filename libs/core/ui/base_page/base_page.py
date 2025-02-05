@@ -15,10 +15,10 @@ class BasePage:
         self.driver = driver
         self.timeout = timeout
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.get_title()
 
-    def wait_for_page_to_load(self, *, timeout: Optional[float] = None):
+    def wait_for_page_to_load(self, *, timeout: Optional[float] = None) -> None:
         try:
             WebDriverWait(
                 self.driver,
@@ -34,7 +34,7 @@ class BasePage:
                 f"Page did not load completely within the given {timeout=}."
             )
 
-    def scroll_by_screen(self, *, screens_count: float):
+    def scroll_by_screen(self, *, screens_count: float) -> None:
         # it scrolls from current position
         screen_height = self.driver.execute_script("return window.innerHeight")
         self.driver.execute_script(
@@ -42,7 +42,7 @@ class BasePage:
         )
         self.wait_for_page_to_load()
 
-    def open_url(self, *, url: str):
+    def open_url(self, *, url: str) -> None:
         """Opens the given URL in the browser."""
         self.driver.get(url)
         self.wait_for_page_to_load()
