@@ -34,4 +34,4 @@ class BrowsePage(TwitchTVPage):
         return self.list_visible_channels()
 
     def list_visible_channels(self):
-        return self.channels_container.find_all_elements()
+        return self.channels_container.find_all_elements_in_viewport()

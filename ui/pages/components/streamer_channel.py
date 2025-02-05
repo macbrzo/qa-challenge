@@ -1,3 +1,5 @@
+import logging
+
 from selenium.common import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -6,11 +8,15 @@ from libs.core.ui import BaseElement
 
 class StreamerChannel:
     def __init__(
-        self, driver, parent_locator: str = "css=div#channel-live-overlay", logger=None
+        self,
+        driver,
+        parent_locator: str = "css=div#channel-live-overlay",
+        logger=logging,
     ):
         self.driver = driver
         self.logger = logger
         self.parent_locator = BaseElement(driver, locator=parent_locator)
+        # content gate
         # https://m.twitch.tv/vaelyth_
         # https://m.twitch.tv/protech
         self.content_gate = BaseElement(
@@ -32,15 +38,17 @@ class StreamerChannel:
             parent=self.parent_locator,
         )
 
-    def wait_for_video_to_play(self, *, timeout: int = 20):
+    def is_video_started(self, *, timeout: int = 20) -> bool:
         try:
             WebDriverWait(self.driver, timeout=timeout).until(
                 lambda d: d.execute_script(
                     "return arguments[0].readyState >= 4;", self.video.element
                 )
             )
-        except TimeoutException:
-            raise TimeoutException(f"Video did not start within the given {timeout=}")
+        except TimeoutException as e:
+            self.logger.error(e)
+            return False
+        return True
 
     def handle_content_gate_popup(self):
         self.streamer_container.wait_for_element_to_be_visible()
