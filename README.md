@@ -1,7 +1,7 @@
 # QA-UI-Challenge
 
 ## Description
-A brief description of your project and its purpose.
+This repository was created as part of a recruitment challenge
 
 ---
 
