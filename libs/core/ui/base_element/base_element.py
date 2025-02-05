@@ -1,12 +1,18 @@
 import re
+import time
 from typing import List, Optional, Tuple, Union
 
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import (
+    ElementClickInterceptedException,
+    TimeoutException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+import config
 
 
 class BaseElement:
@@ -16,7 +22,7 @@ class BaseElement:
         locator: Optional[str] = None,
         parent: Optional["BaseElement"] = None,
         web_element: Optional[WebElement] = None,
-        timeout: int = 10,
+        timeout: int = config.global_timeout,
         logger=None,
     ):
         if not (web_element or locator):
@@ -69,16 +75,28 @@ class BaseElement:
         element = location_context.find_elements(*self.locator)
         return bool(element)
 
-    def click(self) -> None:
+    def click(self, attempts: int = 5) -> None:
         element = self.element
         if not element.is_enabled():
-            raise TimeoutException(f"Element not found: {self.locator}")
-        element.click()
+            raise TimeoutException(f"Element not enabled: {self.locator}")
 
-    def find_all_elements(self) -> List["BaseElement"]:
+        exception = None
+        for _ in range(attempts):
+            try:
+                element.click()
+                break
+            except ElementClickInterceptedException as e:
+                if not exception:
+                    exception = e
+                time.sleep(1)
+        else:
+            raise exception from None
+
+    def find_all_elements_in_viewport(self) -> List["BaseElement"]:
         elements = WebDriverWait(self.driver, self.timeout).until(
-            EC.visibility_of_any_elements_located(self.locator)
+            EC.visibility_of_all_elements_located(self.locator)
         )
+
         js_script = """
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
@@ -105,6 +123,7 @@ class BaseElement:
         element.send_keys(value)
 
     def wait_for_element_to_be_visible(self, timeout: int = 10) -> None:
-        WebDriverWait(driver=self.driver, timeout=timeout).until(
+        location_context = self._get_location_context()
+        WebDriverWait(location_context, timeout=timeout).until(
             EC.visibility_of(self.element)
         )

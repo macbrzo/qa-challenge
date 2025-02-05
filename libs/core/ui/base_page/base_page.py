@@ -1,9 +1,11 @@
+from typing import Optional
+
 from selenium.common import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BasePage:
-    def __init__(self, driver):
+    def __init__(self, driver, timeout: float):
         """
         BasePage class for common page interactions.
 
@@ -11,15 +13,16 @@ class BasePage:
             driver (WebDriver): The Selenium WebDriver instance.
         """
         self.driver = driver
+        self.timeout = timeout
 
     def __repr__(self):
         return self.get_title()
 
-    def wait_for_page_to_load(self, *, timeout=10):
+    def wait_for_page_to_load(self, *, timeout: Optional[float] = None):
         try:
             WebDriverWait(
                 self.driver,
-                timeout,
+                timeout or self.timeout,
                 poll_frequency=0.5,
                 ignored_exceptions=[StaleElementReferenceException],
             ).until(
@@ -47,6 +50,3 @@ class BasePage:
     def get_title(self) -> str:
         """Returns the current page title."""
         return self.driver.title
-
-    def take_screenshot(self, screenshot_name: str):
-        self.driver.save_screenshot(screenshot_name)
