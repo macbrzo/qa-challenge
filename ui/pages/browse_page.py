@@ -1,13 +1,12 @@
-from typing import List
-
 from selenium.webdriver import Keys
+from selenium.webdriver.chrome.webdriver import WebDriver
 
 from libs.core.ui import BaseElement
 from ui.pages.twitch_base_page import TwitchTVPage
 
 
 class BrowsePage(TwitchTVPage):
-    def __init__(self, driver):
+    def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.search_input = BaseElement(
             driver=driver,
@@ -31,9 +30,9 @@ class BrowsePage(TwitchTVPage):
         self.nav_bar.navigate_to_search_page()
         self.search_input.send_keys(value=input_phrase + Keys.RETURN)
 
-    def navigate_to_channels(self) -> List[BaseElement]:
+    def navigate_to_channels(self) -> list[BaseElement]:
         self.channels_btn.click()
         return self.list_visible_channels()
 
-    def list_visible_channels(self) -> List[BaseElement]:
+    def list_visible_channels(self) -> list[BaseElement]:
         return self.channels_container.find_all_elements_in_viewport()

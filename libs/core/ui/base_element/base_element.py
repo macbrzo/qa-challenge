@@ -1,3 +1,4 @@
+from __future__ import annotations
 import re
 import time
 
@@ -6,7 +7,7 @@ from selenium.common.exceptions import (
     TimeoutException,
 )
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,9 +18,9 @@ import config
 class BaseElement:
     def __init__(
         self,
-        driver,
+        driver: WebDriver,
         locator: str | None = None,
-        parent: "BaseElement" | None = None,
+        parent: BaseElement | None = None,
         web_element: WebElement | None = None,
         timeout: int = config.global_timeout,
         logger=None,
@@ -91,7 +92,7 @@ class BaseElement:
         else:
             raise exception from None
 
-    def find_all_elements_in_viewport(self) -> list["BaseElement"]:
+    def find_all_elements_in_viewport(self) -> list[BaseElement]:
         elements = WebDriverWait(self.driver, self.timeout).until(
             EC.visibility_of_all_elements_located(self.locator)
         )

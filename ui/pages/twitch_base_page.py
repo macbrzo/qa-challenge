@@ -4,14 +4,11 @@ from ui.pages.components.mobile_nav_bar import MobileNavBar
 
 
 class TwitchTVPage(BasePage):
-
     def __init__(self, driver, timeout=config.global_timeout):
         super().__init__(driver=driver, timeout=timeout)
         self.nav_bar = MobileNavBar(driver=driver)
 
-        self.consent_banner_modal = BaseElement(
-            driver=driver, locator="css=.consent-banner"
-        )
+        self.consent_banner_modal = BaseElement(driver=driver, locator="css=.consent-banner")
         self.accept_btn = BaseElement(
             driver=driver, locator="css=button[data-a-target='consent-banner-accept']"
         )

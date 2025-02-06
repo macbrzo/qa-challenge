@@ -1,11 +1,10 @@
-from typing import Optional
-
 from selenium.common import StaleElementReferenceException, TimeoutException
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BasePage:
-    def __init__(self, driver, timeout: float):
+    def __init__(self, driver: WebDriver, timeout: float):
         """
         BasePage class for common page interactions.
 
@@ -18,7 +17,7 @@ class BasePage:
     def __repr__(self) -> str:
         return self.get_title()
 
-    def wait_for_page_to_load(self, *, timeout: Optional[float] = None) -> None:
+    def wait_for_page_to_load(self, *, timeout: float | None = None) -> None:
         try:
             WebDriverWait(
                 self.driver,
@@ -26,20 +25,15 @@ class BasePage:
                 poll_frequency=0.5,
                 ignored_exceptions=[StaleElementReferenceException],
             ).until(
-                lambda driver: driver.execute_script("return document.readyState")
-                == "complete"
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
             )
         except TimeoutException:
-            raise TimeoutException(
-                f"Page did not load completely within the given {timeout=}."
-            )
+            raise TimeoutException(f"Page did not load completely within the given {timeout=}.")
 
     def scroll_by_screen(self, *, screens_count: float) -> None:
         # it scrolls from current position
         screen_height = self.driver.execute_script("return window.innerHeight")
-        self.driver.execute_script(
-            f"window.scrollBy(0, {screens_count * screen_height});"
-        )
+        self.driver.execute_script(f"window.scrollBy(0, {screens_count * screen_height});")
         self.wait_for_page_to_load()
 
     def open_url(self, *, url: str) -> None:
