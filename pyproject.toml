@@ -28,5 +28,5 @@ line-length = 100
 
 [tool.ruff.format]
 quote-style = "double"
-indent-style = "tab"
+indent-style = "space"
 docstring-code-format = true
