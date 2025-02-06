@@ -1,6 +1,6 @@
 import config
 from libs.core.ui import BaseElement, BasePage
-from ui.pages.components.mobile_nav_bar import MobileNavBar
+from ui.components.mobile_nav_bar import MobileNavBar
 
 
 class TwitchTVPage(BasePage):
