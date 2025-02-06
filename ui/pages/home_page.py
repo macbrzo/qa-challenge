@@ -1,6 +1,6 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
 
-from ui.pages.twitch_base_page import TwitchTVPage
+from .twitch_base_page import TwitchTVPage
 
 
 class HomePage(TwitchTVPage):

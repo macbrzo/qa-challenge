@@ -2,7 +2,8 @@ from selenium.webdriver import Keys
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from libs.core.ui import BaseElement
-from ui.pages.twitch_base_page import TwitchTVPage
+
+from .twitch_base_page import TwitchTVPage
 
 
 class BrowsePage(TwitchTVPage):

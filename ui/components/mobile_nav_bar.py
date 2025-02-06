@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -6,7 +7,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from libs.core.ui import BaseElement
 
 if TYPE_CHECKING:
-    from ui.pages.browse_page import BrowsePage
+    from ui.pages import BrowsePage
 
 
 class MobileNavBar:
@@ -20,7 +21,7 @@ class MobileNavBar:
 
     def navigate_to_search_page(self) -> BrowsePage:
         self.search_btn.click()
-        from ui.pages.browse_page import BrowsePage
+        from ui.pages import BrowsePage
 
         search_page = BrowsePage(driver=self.driver)
         search_page.wait_for_page_to_load()

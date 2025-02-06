@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import re
 import time
 
@@ -6,8 +7,8 @@ from selenium.common.exceptions import (
     ElementClickInterceptedException,
     TimeoutException,
 )
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
