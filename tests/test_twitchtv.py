@@ -1,6 +1,6 @@
 import logging
 
-from ui.pages.components.streamer_channel import StreamerChannel
+from ui.components import StreamerChannel
 
 
 def test__success__stream_started(twitch_home_page):

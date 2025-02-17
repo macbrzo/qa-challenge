@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qa-task"
-version = "0.1.0"
+version = "0.2.0"
 description = "Coding Challenge"
 authors = ["Maciej Brzostowski <maciejbrzost@gmail.com>"]
 readme = "README.md"
@@ -9,20 +9,36 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.12.6"
 pre-commit = "^4.1.0"
-black = "^25.1.0"
 isort = "^6.0.0"
-flake8 = "^7.1.1"
 pytest = "^8.3.4"
 selenium = "^4.28.1"
 webdriver-manager = "^4.0.2"
 xdist = "^0.0.2"
 pytest-xdist = "^3.6.1"
-flake8-pyproject = "^1.2.3"
 python-dotenv = "^1.0.1"
-
-[tool.flake8]
-max-line-length = 100
+ruff = "^0.9.5"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.12"
+
+
+[tool.pytest.ini_options]
+addopts = ["-v", "--tb=short"]
+testpaths = ["tests/"]
+python_files = "test_*.py"
+log_cli = true
+log_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"

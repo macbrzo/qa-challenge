@@ -1,6 +1,7 @@
 import logging
 
 from selenium.common import TimeoutException
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 from libs.core.ui import BaseElement
@@ -9,7 +10,7 @@ from libs.core.ui import BaseElement
 class StreamerChannel:
     def __init__(
         self,
-        driver,
+        driver: WebDriver,
         parent_locator: str = "css=div#channel-live-overlay",
         logger=logging,
     ):
@@ -29,9 +30,7 @@ class StreamerChannel:
             locator="css=button[data-a-target*='start-watching-button']",
             parent=self.content_gate,
         )
-        self.video = BaseElement(
-            driver, locator="css=video", parent=self.parent_locator
-        )
+        self.video = BaseElement(driver, locator="css=video", parent=self.parent_locator)
         self.streamer_container = BaseElement(
             driver,
             locator="xpath=//div[contains(@class, 'streamInfoContainer')]",

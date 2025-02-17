@@ -7,4 +7,6 @@ __pycache__
 dist
 .coverage
 htmlcov
+screenshots/
 .pytest_cache
+.ruff_cache

@@ -1,5 +1,8 @@
+from typing import Generator
+
 import pytest
 from selenium.webdriver import Chrome, ChromeOptions, ChromeService
+from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 import config
@@ -18,8 +21,8 @@ devices = [
 
 
 @pytest.fixture(scope="session")
-def chrome_service():
-    if config.is_remote:
+def chrome_service() -> Generator[ChromeService, None, None]:
+    if config.remote_url:
         raise NotImplementedError("Remote not implemented")
     else:
         service = ChromeService(ChromeDriverManager().install())
@@ -27,7 +30,7 @@ def chrome_service():
 
 
 @pytest.fixture(params=devices)
-def chrome_mobile_driver(request, chrome_service):
+def chrome_mobile_driver(request, chrome_service) -> Generator[WebDriver, None, None]:
     device = request.param
 
     chrome_options = ChromeOptions()

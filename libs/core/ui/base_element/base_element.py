@@ -1,13 +1,14 @@
+from __future__ import annotations
+
 import re
 import time
-from typing import List, Optional, Tuple, Union
 
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     TimeoutException,
 )
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,10 +19,10 @@ import config
 class BaseElement:
     def __init__(
         self,
-        driver,
-        locator: Optional[str] = None,
-        parent: Optional["BaseElement"] = None,
-        web_element: Optional[WebElement] = None,
+        driver: WebDriver,
+        locator: str | None = None,
+        parent: BaseElement | None = None,
+        web_element: WebElement | None = None,
         timeout: int = config.global_timeout,
         logger=None,
     ):
@@ -35,13 +36,13 @@ class BaseElement:
         self.timeout = timeout
         self.logger = logger
 
-    def _get_location_context(self) -> Union[WebDriver, WebElement]:
+    def _get_location_context(self) -> WebDriver | WebElement:
         if self.parent:
             return self.parent.element
         return self.driver
 
     @staticmethod
-    def best_locator(*, locator: str) -> Tuple[str, str]:
+    def best_locator(*, locator: str) -> tuple[str, str]:
         pattern = r"(?P<by>css|xpath)=(?P<selector>.+)"
         matches = re.match(pattern, locator)
         if not matches:
@@ -92,7 +93,7 @@ class BaseElement:
         else:
             raise exception from None
 
-    def find_all_elements_in_viewport(self) -> List["BaseElement"]:
+    def find_all_elements_in_viewport(self) -> list[BaseElement]:
         elements = WebDriverWait(self.driver, self.timeout).until(
             EC.visibility_of_all_elements_located(self.locator)
         )
@@ -112,9 +113,7 @@ class BaseElement:
         visible_elements = []
         for element in elements:
             if self.driver.execute_script(js_script, element):
-                visible_elements.append(
-                    BaseElement(driver=self.driver, web_element=element)
-                )
+                visible_elements.append(BaseElement(driver=self.driver, web_element=element))
         return visible_elements
 
     def send_keys(self, value: str) -> None:
@@ -124,6 +123,4 @@ class BaseElement:
 
     def wait_for_element_to_be_visible(self, timeout: int = 10) -> None:
         location_context = self._get_location_context()
-        WebDriverWait(location_context, timeout=timeout).until(
-            EC.visibility_of(self.element)
-        )
+        WebDriverWait(location_context, timeout=timeout).until(EC.visibility_of(self.element))
